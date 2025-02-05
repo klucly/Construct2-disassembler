@@ -90,7 +90,7 @@ class SimpleValue(Value):
         raise ValueError("Unhandled case. check may be wrong")
 
     @staticmethod
-    def decode_value_type(type_index: int | str, value: Any) -> Any:
+    def decode_value_type(type_index: int | str, value: Any, meta: Meta) -> Any:
         if type(type_index) is str and not value:
             return type_index
 
@@ -109,7 +109,8 @@ class SimpleValue(Value):
                 return f"{value}"
             # object
             case 4:
-                return f"@{value}"
+                name = meta.get_obj_name_by_instance_id(value)
+                return f"{name}({value})"
             # cmp sign
             case 8:
                 return [
@@ -145,7 +146,7 @@ class SimpleValue(Value):
     def __str__(self):
         if type(self.value) is str and self.type_ == 2:
             return f'"{self.value}"'
-        return str(self.decode_value_type(self.type_, self.value))
+        return str(self.decode_value_type(self.type_, self.value, self.meta))
 
 
 @dataclass

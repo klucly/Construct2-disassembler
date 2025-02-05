@@ -165,12 +165,12 @@ Group Player_Control:
         system_object.SetTimescale(1)
         system_object.SetLayerVisible("UI", 1)
         Text(34).SetText(Coins)
-        Pin(6).Pin(@20, 0)
-        Pin(21).Pin(@6, 0)
-        Pin(29).Pin(@6, 0)
+        Pin(6).Pin(Sprite(20), 0)
+        Pin(21).Pin(Sprite(6), 0)
+        Pin(29).Pin(Sprite(6), 0)
     if Touch(16).OnTouchStart and system_object.LayerVisible("UI") and Lost == 0:
-        system_object.CreateObject(@20, "Touch_2", Touch.X, Touch.Y)
-        Pin(6).Pin(@20, 1)
+        system_object.CreateObject(Sprite(20), "Touch_2", Touch.X, Touch.Y)
+        Pin(6).Pin(Sprite(20), 1)
     if Touch(16).OnTouchEnd and system_object.LayerVisible("UI"):
         Pin(6).Unpin
         Sprite(20).Destroy
@@ -178,33 +178,33 @@ Group Player_Control:
     if Sprite(6).CompareX(<=, 26):
         Pin(6).Unpin
         Sprite(6).SetX(26.1)
-        Pin(6).Pin(@20, 1)
+        Pin(6).Pin(Sprite(20), 1)
     if Sprite(6).CompareX(>=, 373):
         Pin(6).Unpin
         Sprite(6).SetX(372.9)
-        Pin(6).Pin(@20, 1)
+        Pin(6).Pin(Sprite(20), 1)
     if Platform(1).OnLand:
         Platform(1).SimulateControl(2)
     if Platform(30).OnLand:
         Platform(30).SimulateControl(2)
-    if Sprite(1).OnCollision(@2):
+    if Sprite(1).OnCollision(Sprite(2)):
         Sprite(1).SetAngle(180)
-    if Sprite(1).OnCollision(@3):
+    if Sprite(1).OnCollision(Sprite(3)):
         Sprite(1).SetAngle(0)
     if Keyboard(8).IsKeyDown(37) and system_object.LayerVisible("UI") and Lost == 0:
         Sprite(6).MoveForward(-8)
     if Keyboard(8).IsKeyDown(39) and system_object.LayerVisible("UI") and Lost == 0:
         Sprite(6).MoveForward(8)
-    if Sprite(1).OnCollision(@6):
+    if Sprite(1).OnCollision(Sprite(6)):
         Function(18).CallFunction("Lost", 13)
-    if Sprite(30).OnCollision(@6):
+    if Sprite(30).OnCollision(Sprite(6)):
         system_object.AddVar(Coins, 1)
         Rex_Hash(67).SetValueByKeyString(COINS_KEY, Coins)
         Sprite(30).Destroy
         Audio(52).Play(coin, 0, 0, "")
 Group Balls:
     Group Destroy_Balls:
-        if Sprite(7).OnCollision(@1):
+        if Sprite(7).OnCollision(Sprite(1)):
             Sprite(7).Destroy
             system_object.AddVar(Score, (Damage / 8))
             if Text(4).iVar0 == Rotate:
@@ -253,7 +253,7 @@ Group Balls:
                                                     Text(4).iVar1 = (Rotate / 100000000)
                                                     Text(4).iVar3 = " M"
                                                     Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
-        if Sprite(23).OnCollision(@1):
+        if Sprite(23).OnCollision(Sprite(1)):
             Sprite(23).Destroy
             system_object.AddVar(Score, 0.2)
             if Text(4).iVar0 == Rotate:
@@ -302,7 +302,7 @@ Group Balls:
                                                     Text(4).iVar1 = (Rotate / 100000000)
                                                     Text(4).iVar3 = " M"
                                                     Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
-        if Sprite(25).OnCollision(@1):
+        if Sprite(25).OnCollision(Sprite(1)):
             Sprite(25).Destroy
             system_object.AddVar(Score, 0.2)
             if Text(4).iVar0 == Rotate:
@@ -351,7 +351,7 @@ Group Balls:
                                                     Text(4).iVar1 = (Rotate / 100000000)
                                                     Text(4).iVar3 = " M"
                                                     Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
-        if Sprite(27).OnCollision(@1):
+        if Sprite(27).OnCollision(Sprite(1)):
             Sprite(27).Destroy
             system_object.AddVar(Score, 0.2)
             if Text(4).iVar0 == Rotate:
@@ -402,13 +402,13 @@ Group Balls:
                                                     Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
         if Sprite(9).OnCreated: pass
             if True:
-                Sprite(9).Spawn(@1, "Layer 1", 1)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
-                Pin(19).Pin(@1, 1)
+                Sprite(9).Spawn(Sprite(1), "Layer 1", 1)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
                 Sprite(19).SetAnim("Ball_1", 1)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).SetAnimFrame(0)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
@@ -628,13 +628,13 @@ Group Balls:
                                                             Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
             if True:
                 system_object.Wait(0.1)
-                Sprite(9).Spawn(@1, "Layer 1", 2)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
-                Pin(19).Pin(@1, 1)
+                Sprite(9).Spawn(Sprite(1), "Layer 1", 2)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
                 Sprite(19).SetAnim("Ball_1", 1)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).SetAnimFrame(0)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
@@ -857,14 +857,14 @@ Group Balls:
                 Sprite(9).Destroy
         if Sprite(10).OnCreated: pass
             if True:
-                Sprite(10).Spawn(@1, "Layer 1", 1)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
-                Pin(19).Pin(@1, 1)
+                Sprite(10).Spawn(Sprite(1), "Layer 1", 1)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
                 Sprite(19).SetAnim("Ball_2", 1)
                 Sprite(1).SetAnimFrame(1)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
                 Sprite(19).iVar0 = Number
@@ -1084,14 +1084,14 @@ Group Balls:
                                                             Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
             if True:
                 system_object.Wait(0.1)
-                Sprite(10).Spawn(@1, "Layer 1", 2)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
-                Pin(19).Pin(@1, 1)
+                Sprite(10).Spawn(Sprite(1), "Layer 1", 2)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
                 Sprite(19).SetAnim("Ball_2", 1)
                 Sprite(1).SetAnimFrame(1)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
                 Sprite(19).iVar0 = Number
@@ -1314,14 +1314,14 @@ Group Balls:
                 Sprite(10).Destroy
         if Sprite(11).OnCreated: pass
             if True:
-                Sprite(11).Spawn(@1, "Layer 1", 1)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
-                Pin(19).Pin(@1, 1)
+                Sprite(11).Spawn(Sprite(1), "Layer 1", 1)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
                 Sprite(19).SetAnim("Ball_3", 1)
                 Sprite(1).SetAnimFrame(2)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
                 Sprite(19).iVar0 = Number
@@ -1540,14 +1540,14 @@ Group Balls:
                                                             Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
             if True:
                 system_object.Wait(0.1)
-                Sprite(11).Spawn(@1, "Layer 1", 2)
-                Sprite(1).Spawn(@19, "Layer 1", 0)
+                Sprite(11).Spawn(Sprite(1), "Layer 1", 2)
+                Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
                 Sprite(19).SetAnim("Ball_3", 1)
                 Sprite(1).SetAnimFrame(2)
-                Pin(19).Pin(@1, 1)
-                Sprite(19).Spawn(@4, "Layer 1", 0)
+                Pin(19).Pin(Sprite(1), 1)
+                Sprite(19).Spawn(Text(4), "Layer 1", 0)
                 Text(4).SetAngle(0)
-                Pin(4).Pin(@1, 1)
+                Pin(4).Pin(Sprite(1), 1)
                 Sprite(1).iVar0 = Number
                 Text(4).iVar0 = Number
                 Sprite(19).iVar0 = Number
@@ -1768,13 +1768,13 @@ Group Balls:
             if True:
                 system_object.Wait(0.1)
                 Sprite(11).Destroy
-        if Text(4).iVar1 <= 0.9 and system_object.ForEach(@4): pass
+        if Text(4).iVar1 <= 0.9 and system_object.ForEach(Text(4)): pass
             if Sprite(1).iVar0 == Rotate:
                 Sprite(1).SetCollisions(0)
                 if Sprite(1).CompareFrame(==, 0):
-                    Sprite(1).Spawn(@30, "Layer 1", 0)
-                    Sprite(1).Spawn(@14, "PLayer", 0)
-                    Sprite(1).Spawn(@57, "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(30), "Layer 1", 0)
+                    Sprite(1).Spawn(Particles(14), "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(57), "PLayer", 0)
                     Sprite(57).MoveToBottom
                     Text(4).Destroy
                     Audio(52).Play(explode, 0, 0, "")
@@ -1785,11 +1785,11 @@ Group Balls:
                     if True:
                         Sprite(1).Destroy
                 if Sprite(1).CompareFrame(==, 1):
-                    Sprite(1).Spawn(@30, "Layer 1", 0)
-                    Sprite(1).Spawn(@13, "PLayer", 0)
-                    Sprite(1).Spawn(@58, "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(30), "Layer 1", 0)
+                    Sprite(1).Spawn(Particles(13), "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(58), "PLayer", 0)
                     Sprite(58).MoveToBottom
-                    Sprite(1).Spawn(@9, "Layer 1", 0)
+                    Sprite(1).Spawn(Sprite(9), "Layer 1", 0)
                     Text(4).Destroy
                     Audio(52).Play(explode, 0, 0, "")
                     if Sprite(19).iVar0 == Rotate:
@@ -1799,11 +1799,11 @@ Group Balls:
                     if True:
                         Sprite(1).Destroy
                 if Sprite(1).CompareFrame(==, 2):
-                    Sprite(1).Spawn(@30, "Layer 1", 0)
-                    Sprite(1).Spawn(@12, "PLayer", 0)
-                    Sprite(1).Spawn(@59, "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(30), "Layer 1", 0)
+                    Sprite(1).Spawn(Particles(12), "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(59), "PLayer", 0)
                     Sprite(59).MoveToBottom
-                    Sprite(1).Spawn(@10, "Layer 1", 0)
+                    Sprite(1).Spawn(Sprite(10), "Layer 1", 0)
                     Text(4).Destroy
                     Audio(52).Play(explode, 0, 0, "")
                     if Sprite(19).iVar0 == Rotate:
@@ -1813,11 +1813,11 @@ Group Balls:
                     if True:
                         Sprite(1).Destroy
                 if Sprite(1).CompareFrame(==, 3):
-                    Sprite(1).Spawn(@30, "Layer 1", 0)
-                    Sprite(1).Spawn(@15, "PLayer", 0)
-                    Sprite(1).Spawn(@60, "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(30), "Layer 1", 0)
+                    Sprite(1).Spawn(Particles(15), "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(60), "PLayer", 0)
                     Sprite(60).MoveToBottom
-                    Sprite(1).Spawn(@11, "Layer 1", 0)
+                    Sprite(1).Spawn(Sprite(11), "Layer 1", 0)
                     Text(4).Destroy
                     Audio(52).Play(explode, 0, 0, "")
                     if Sprite(19).iVar0 == Rotate:
@@ -1828,34 +1828,34 @@ Group Balls:
                         Sprite(1).Destroy
                 if Sprite(1).CompareFrame(==, 4):
                     Boss_is_on_screen = 0
-                    Sprite(1).Spawn(@15, "PLayer", 0)
-                    Sprite(1).Spawn(@61, "PLayer", 0)
+                    Sprite(1).Spawn(Particles(15), "PLayer", 0)
+                    Sprite(1).Spawn(Sprite(61), "PLayer", 0)
                     Sprite(61).MoveToBottom
-                    Sprite(1).Spawn(@11, "Layer 1", 0)
+                    Sprite(1).Spawn(Sprite(11), "Layer 1", 0)
                     Text(4).Destroy
                     Audio(52).Play(explode, 0, 0, "")
-                    system_object.CreateObject(@30, "Layer 1", 51.065, -36.181)
-                    system_object.CreateObject(@30, "Layer 1", 125.532, -36.181)
-                    system_object.CreateObject(@30, "Layer 1", 199.308, -36.181)
-                    system_object.CreateObject(@30, "Layer 1", 270.175, -36.181)
-                    system_object.CreateObject(@30, "Layer 1", 344.725, -36.181)
+                    system_object.CreateObject(Sprite(30), "Layer 1", 51.065, -36.181)
+                    system_object.CreateObject(Sprite(30), "Layer 1", 125.532, -36.181)
+                    system_object.CreateObject(Sprite(30), "Layer 1", 199.308, -36.181)
+                    system_object.CreateObject(Sprite(30), "Layer 1", 270.175, -36.181)
+                    system_object.CreateObject(Sprite(30), "Layer 1", 344.725, -36.181)
                     if Sprite(19).iVar0 == Rotate:
                         Sprite(19).SetVisible(0)
                         if Sprite(19).IsAnimPlaying("Boss"):
                             Sprite(19).Destroy
                     if True:
                         Sprite(1).Destroy
-        if Pin(19).IsPinned and system_object.ForEach(@19):
+        if Pin(19).IsPinned and system_object.ForEach(Sprite(19)):
             Sprite(19).Destroy
-        if Pin(4).IsPinned and system_object.ForEach(@4):
+        if Pin(4).IsPinned and system_object.ForEach(Text(4)):
             Text(4).Destroy
-        if Sprite(1).iVar0 != Rotate and system_object.ForEach(@1):
+        if Sprite(1).iVar0 != Rotate and system_object.ForEach(Sprite(1)):
             Sprite(1).Destroy
             if Pin(4).IsPinned:
                 Text(4).Destroy
-        if Sprite(19).iVar0 != Rotate and system_object.ForEach(@19):
+        if Sprite(19).iVar0 != Rotate and system_object.ForEach(Sprite(19)):
             Sprite(19).Destroy
-        if Text(4).iVar0 != Rotate and system_object.ForEach(@4):
+        if Text(4).iVar0 != Rotate and system_object.ForEach(Text(4)):
             Text(4).Destroy
 Group UI:
     if system_object.OnLayoutStart:
@@ -1865,70 +1865,70 @@ Group UI:
             Sprite(29).Destroy
             Guns = 1
             Sprite(6).SetAnimFrame(0)
-            Sprite(6).Spawn(@29, "PLayer", 1)
-            Pin(29).Pin(@6, 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+            Pin(29).Pin(Sprite(6), 0)
         if Guns == 2:
             Sprite(29).Destroy
             Guns = 2
             Sprite(6).SetAnimFrame(1)
-            Sprite(6).Spawn(@29, "PLayer", 1)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 2)
-            Pin(29).Pin(@6, 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+            Pin(29).Pin(Sprite(6), 0)
         if Guns == 3:
             Sprite(29).Destroy
             Guns = 3
             Sprite(6).SetAnimFrame(2)
-            Sprite(6).Spawn(@29, "PLayer", 1)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 2)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 3)
-            Pin(29).Pin(@6, 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+            Pin(29).Pin(Sprite(6), 0)
         if Guns == 4:
             Sprite(29).Destroy
             Guns = 4
             Sprite(6).SetAnimFrame(3)
-            Sprite(6).Spawn(@29, "PLayer", 3)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 5)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 1)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 2)
-            Pin(29).Pin(@6, 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 5)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+            Pin(29).Pin(Sprite(6), 0)
         if Guns == 5:
             Sprite(29).Destroy
             Guns = 5
             Sprite(6).SetAnimFrame(4)
-            Sprite(6).Spawn(@29, "PLayer", 2)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 3)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 5)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 6)
-            Pin(29).Pin(@6, 0)
-            Sprite(6).Spawn(@29, "PLayer", 1)
-            Pin(29).Pin(@6, 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 5)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 6)
+            Pin(29).Pin(Sprite(6), 0)
+            Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+            Pin(29).Pin(Sprite(6), 0)
         if Pet == 1: pass
             if system_object.TriggerOnce:
-                Sprite(6).Spawn(@22, "Gameplay_UI", 4)
-                Pin(22).Pin(@6, 3)
+                Sprite(6).Spawn(Sprite(22), "Gameplay_UI", 4)
+                Pin(22).Pin(Sprite(6), 3)
         if Pet == 2: pass
             if system_object.TriggerOnce:
-                Sprite(6).Spawn(@24, "Gameplay_UI", 4)
+                Sprite(6).Spawn(Sprite(24), "Gameplay_UI", 4)
                 Sprite(24).SetAngle(270)
-                Pin(24).Pin(@6, 3)
+                Pin(24).Pin(Sprite(6), 3)
         if Pet == 3: pass
             if system_object.TriggerOnce:
-                Sprite(6).Spawn(@26, "Gameplay_UI", 4)
-                Pin(26).Pin(@6, 3)
+                Sprite(6).Spawn(Sprite(26), "Gameplay_UI", 4)
+                Pin(26).Pin(Sprite(6), 3)
     if Ball_Speed <= 0.14: pass
         if system_object.TriggerOnce:
             Sprite(31).SetEffectParam("AdjustHSL", 1, 100)
             Sprite(31).SetEffectParam("AdjustHSL", 2, 100)
-    if system_object.LayerVisible("UI") and Touch(16).IsTouchingObject(@48) and system_object.LayerVisible("MASK") and Sprite(48).IsCollisionEnabled:
+    if system_object.LayerVisible("UI") and Touch(16).IsTouchingObject(Sprite(48)) and system_object.LayerVisible("MASK") and Sprite(48).IsCollisionEnabled:
         Sprite(48).Destroy
         Boss_is_on_screen = 0
         if system_object.TriggerOnce and Damage <= 200:
@@ -1944,8 +1944,8 @@ Group UI:
             Add_Number_Ball = 0
             Fade(49).StartFade
             Fade(50).StartFade
-            Pin(6).Pin(@0, 0)
-            Pin(76).Pin(@0, 0)
+            Pin(6).Pin(Sprite(0), 0)
+            Pin(76).Pin(Sprite(0), 0)
             lunarray_LiteTween(0).Start(0, 0)
             Fade(62).StartFade
             Fade(76).StartFade
@@ -1961,15 +1961,15 @@ Group UI:
                 Sprite(1).Destroy
         if system_object.TriggerOnce and Damage > 200:
             system_object.SetLayerVisible("MASK", 1)
-            system_object.CreateObject(@0, "MASK", 0, 0)
+            system_object.CreateObject(Sprite(0), "MASK", 0, 0)
             Sprite(0).SetPos(515.432, 268)
             Sprite(0).SetAngle(90)
             Sprite(0).SetSize(-1266, 641)
-            system_object.CreateObject(@0, "MASK", 0, 0)
+            system_object.CreateObject(Sprite(0), "MASK", 0, 0)
             Sprite(0).SetPos(-112.419, 268)
             Sprite(0).SetAngle(270)
             Sprite(0).SetSize(-1266, 641)
-            system_object.CreateObject(@65, "MASK", 200, 293)
+            system_object.CreateObject(Sprite(65), "MASK", 200, 293)
     Group DAMAGE:
         if Function(18).OnFunction("Damage"):
             Text(50).Destroy
@@ -1982,23 +1982,23 @@ Group UI:
             Sprite(39).Destroy
             system_object.SetLayerVisible("Damage", 1)
             Sprite(31).SetAnimFrame(1)
-            system_object.CreateObject(@35, "Damage", 199.795, 901.926)
-            system_object.CreateObject(@38, "Damage", 239.035, 934.241)
-            system_object.CreateObject(@39, "Damage", 280.144, 935.632)
+            system_object.CreateObject(Sprite(35), "Damage", 199.795, 901.926)
+            system_object.CreateObject(Sprite(38), "Damage", 239.035, 934.241)
+            system_object.CreateObject(Sprite(39), "Damage", 280.144, 935.632)
             Sprite(39).iVar0 = 0
-            system_object.CreateObject(@54, "Damage", 317.111, 936.243)
+            system_object.CreateObject(Text(54), "Damage", 317.111, 936.243)
             Text(54).SetText((100 + (Damage * 50)))
-            system_object.CreateObject(@49, "Damage", 67.511, 878.601)
-            system_object.CreateObject(@53, "Damage", 240, 877.708)
-            system_object.CreateObject(@50, "Damage", 11, 862.613)
+            system_object.CreateObject(Sprite(49), "Damage", 67.511, 878.601)
+            system_object.CreateObject(Sprite(53), "Damage", 240, 877.708)
+            system_object.CreateObject(Text(50), "Damage", 11, 862.613)
             Text(50).SetText(Damage)
             Text(50).SetFontSize(24)
-            Pin(38).Pin(@35, 0)
-            Pin(39).Pin(@35, 0)
-            Pin(54).Pin(@35, 0)
-            Pin(53).Pin(@35, 0)
-            Pin(49).Pin(@35, 0)
-            Pin(50).Pin(@35, 0)
+            Pin(38).Pin(Sprite(35), 0)
+            Pin(39).Pin(Sprite(35), 0)
+            Pin(54).Pin(Sprite(35), 0)
+            Pin(53).Pin(Sprite(35), 0)
+            Pin(49).Pin(Sprite(35), 0)
+            Pin(50).Pin(Sprite(35), 0)
             lunarray_LiteTween(35).Start(0, 0)
             system_object.SetLayerVisible("Gun", 0)
             system_object.SetLayerVisible("Pet", 0)
@@ -2006,16 +2006,16 @@ Group UI:
             system_object.SetLayerVisible("Power", 0)
             Sprite(33).SetAnimFrame(0)
             Sprite(32).SetAnimFrame(0)
-        if Touch(16).OnTapGestureObject(@31) and system_object.LayerVisible("Damage") and Ball_Speed > 0.14:
+        if Touch(16).OnTapGestureObject(Sprite(31)) and system_object.LayerVisible("Damage") and Ball_Speed > 0.14:
             Sprite(56).Destroy
-            system_object.CreateObject(@56, "UI", 202.801, 353.591)
+            system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
             Sprite(56).SetAnimFrame(3)
             Flash(56).Flash(0.1, 0.1, 1.3)
-        if Touch(16).OnTapGestureObject(@31) and system_object.LayerVisible("Damage") and Ball_Speed <= 0.14:
+        if Touch(16).OnTapGestureObject(Sprite(31)) and system_object.LayerVisible("Damage") and Ball_Speed <= 0.14:
             Audio(52).Play(button, 0, 0, "")
             Function(18).CallFunction("Damage", 13)
         if system_object.LayerVisible("Damage"): pass
-            if Touch(16).OnTapGestureObject(@38) and Damage < 200: pass
+            if Touch(16).OnTapGestureObject(Sprite(38)) and Damage < 200: pass
                 if Coins >= Damage_Price:
                     Audio(52).Play(button, 0, 0, "")
                     system_object.AddVar(Add_Ball_HP, 10)
@@ -2024,7 +2024,7 @@ Group UI:
                     Rex_Hash(67).SetValueByKeyString(COINS_KEY, Coins)
                     system_object.AddVar(Damage, 1)
                     Rex_Hash(67).SetValueByKeyString(DAMAGE_KEY, Damage)
-                    Sprite(49).Spawn(@12, "Damage", 0)
+                    Sprite(49).Spawn(Particles(12), "Damage", 0)
                     Sprite(38).Destroy
                     if Audio(52).IsTagPlaying("up"):
                         Audio(52).Play(upgrade, 0, 0, "up")
@@ -2033,12 +2033,12 @@ Group UI:
                         system_object.AddVar(Damage_Price, 50)
                         Text(50).SetText(Damage)
                         Text(54).SetText(Damage_Price)
-                        system_object.CreateObject(@38, "Damage", 239.035, 740.381)
+                        system_object.CreateObject(Sprite(38), "Damage", 239.035, 740.381)
                         Sprite(39).MoveToTop
                         Text(54).MoveToTop
                 else:
                     Sprite(56).Destroy
-                    system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                    system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                     Sprite(56).SetAnimFrame(4)
                     Flash(56).Flash(0.1, 0.1, 1.3)
             if Damage == 200:
@@ -2054,20 +2054,20 @@ Group UI:
             Sprite(39).Destroy
             system_object.SetLayerVisible("Power", 1)
             Sprite(33).SetAnimFrame(1)
-            system_object.CreateObject(@35, "Power", 199.795, 901.926)
-            system_object.CreateObject(@38, "Power", 239.035, 934.241)
-            system_object.CreateObject(@36, "Power", 66.26, 877.408)
-            system_object.CreateObject(@62, "Power", 66.26, 877.408)
-            system_object.CreateObject(@39, "Power", 280.144, 935.632)
+            system_object.CreateObject(Sprite(35), "Power", 199.795, 901.926)
+            system_object.CreateObject(Sprite(38), "Power", 239.035, 934.241)
+            system_object.CreateObject(Sprite(36), "Power", 66.26, 877.408)
+            system_object.CreateObject(Sprite(62), "Power", 66.26, 877.408)
+            system_object.CreateObject(Sprite(39), "Power", 280.144, 935.632)
             Sprite(39).iVar0 = 0
-            system_object.CreateObject(@40, "Power", 317.111, 936.243)
-            system_object.CreateObject(@37, "Power", 233.633, 878.468)
-            Pin(36).Pin(@35, 0)
-            Pin(37).Pin(@35, 0)
-            Pin(62).Pin(@35, 0)
-            Pin(38).Pin(@35, 0)
-            Pin(39).Pin(@35, 0)
-            Pin(40).Pin(@35, 0)
+            system_object.CreateObject(Text(40), "Power", 317.111, 936.243)
+            system_object.CreateObject(Sprite(37), "Power", 233.633, 878.468)
+            Pin(36).Pin(Sprite(35), 0)
+            Pin(37).Pin(Sprite(35), 0)
+            Pin(62).Pin(Sprite(35), 0)
+            Pin(38).Pin(Sprite(35), 0)
+            Pin(39).Pin(Sprite(35), 0)
+            Pin(40).Pin(Sprite(35), 0)
             lunarray_LiteTween(35).Start(0, 0)
             system_object.SetLayerVisible("Gun", 0)
             system_object.SetLayerVisible("Pet", 0)
@@ -2181,11 +2181,11 @@ Group UI:
                 Sprite(39).Destroy
                 Text(40).Destroy
                 Sprite(38).SetAnimFrame(1)
-        if Touch(16).OnTapGestureObject(@33) and system_object.LayerVisible("Power"):
+        if Touch(16).OnTapGestureObject(Sprite(33)) and system_object.LayerVisible("Power"):
             Audio(52).Play(button, 0, 0, "")
             Function(18).CallFunction("Power", 13)
         if system_object.LayerVisible("Power"): pass
-            if Touch(16).OnTapGestureObject(@38):
+            if Touch(16).OnTapGestureObject(Sprite(38)):
                 Audio(52).Play(button, 0, 0, "")
                 if Ball_Speed == 0.2: pass
                     if Coins >= 5:
@@ -2195,13 +2195,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(1)
                         Ball_Speed = 0.194
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(10)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.194: pass
@@ -2212,13 +2212,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(2)
                         Ball_Speed = 0.188
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(15)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.188: pass
@@ -2229,13 +2229,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(3)
                         Ball_Speed = 0.182
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(20)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.182: pass
@@ -2246,13 +2246,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(4)
                         Ball_Speed = 0.176
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(25)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.176: pass
@@ -2263,26 +2263,26 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Ball_Speed = 0.17
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(6).Spawn(@13, "UI", 0)
+                        Sprite(6).Spawn(Particles(13), "UI", 0)
                         Sprite(29).Destroy
                         Sprite(6).SetAnimFrame(1)
-                        Sprite(6).Spawn(@29, "PLayer", 1)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 2)
-                        Pin(29).Pin(@6, 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+                        Pin(29).Pin(Sprite(6), 0)
                         system_object.Wait(0.1)
                         Guns = 2
                         Rex_Hash(67).SetValueByKeyString(GUNS_KEY, Guns)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(30)
                         Sprite(62).SetAnimFrame(1)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.17: pass
@@ -2293,13 +2293,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(1)
                         Ball_Speed = 0.164
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(35)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.164: pass
@@ -2310,13 +2310,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(2)
                         Ball_Speed = 0.158
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(40)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.158: pass
@@ -2327,13 +2327,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(3)
                         Ball_Speed = 0.152
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(45)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.152: pass
@@ -2344,13 +2344,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(4)
                         Ball_Speed = 0.146
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(50)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.146: pass
@@ -2361,28 +2361,28 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Ball_Speed = 0.14
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(6).Spawn(@13, "UI", 0)
+                        Sprite(6).Spawn(Particles(13), "UI", 0)
                         Sprite(29).Destroy
                         Sprite(6).SetAnimFrame(2)
-                        Sprite(6).Spawn(@29, "PLayer", 1)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 2)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 3)
-                        Pin(29).Pin(@6, 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+                        Pin(29).Pin(Sprite(6), 0)
                         system_object.Wait(0.1)
                         Guns = 3
                         Rex_Hash(67).SetValueByKeyString(GUNS_KEY, Guns)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(55)
                         Sprite(62).SetAnimFrame(2)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.14: pass
@@ -2393,13 +2393,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(1)
                         Ball_Speed = 0.134
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(60)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.134: pass
@@ -2410,13 +2410,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(2)
                         Ball_Speed = 0.128
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(65)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.128: pass
@@ -2427,13 +2427,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(3)
                         Ball_Speed = 0.122
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(70)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.122: pass
@@ -2444,13 +2444,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(4)
                         Ball_Speed = 0.116
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(75)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.116: pass
@@ -2461,30 +2461,30 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Ball_Speed = 0.11
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(6).Spawn(@13, "UI", 0)
+                        Sprite(6).Spawn(Particles(13), "UI", 0)
                         Sprite(29).Destroy
                         Sprite(6).SetAnimFrame(3)
-                        Sprite(6).Spawn(@29, "PLayer", 3)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 5)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 1)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 2)
-                        Pin(29).Pin(@6, 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 5)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+                        Pin(29).Pin(Sprite(6), 0)
                         system_object.Wait(0.1)
                         Guns = 4
                         Rex_Hash(67).SetValueByKeyString(GUNS_KEY, Guns)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(80)
                         Sprite(62).SetAnimFrame(3)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.11: pass
@@ -2495,13 +2495,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(1)
                         Ball_Speed = 0.104
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(85)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.104: pass
@@ -2512,13 +2512,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(2)
                         Ball_Speed = 0.098
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(90)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.098: pass
@@ -2529,13 +2529,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(3)
                         Ball_Speed = 0.092
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(95)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.092: pass
@@ -2546,13 +2546,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(4)
                         Ball_Speed = 0.086
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(100)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.086: pass
@@ -2563,32 +2563,32 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Ball_Speed = 0.08
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(6).Spawn(@13, "UI", 0)
+                        Sprite(6).Spawn(Particles(13), "UI", 0)
                         Sprite(29).Destroy
                         Sprite(6).SetAnimFrame(4)
-                        Sprite(6).Spawn(@29, "PLayer", 2)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 3)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 5)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 6)
-                        Pin(29).Pin(@6, 0)
-                        Sprite(6).Spawn(@29, "PLayer", 1)
-                        Pin(29).Pin(@6, 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 2)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 3)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 5)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 6)
+                        Pin(29).Pin(Sprite(6), 0)
+                        Sprite(6).Spawn(Sprite(29), "PLayer", 1)
+                        Pin(29).Pin(Sprite(6), 0)
                         system_object.Wait(0.1)
                         Guns = 5
                         Rex_Hash(67).SetValueByKeyString(GUNS_KEY, Guns)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(110)
                         Sprite(62).SetAnimFrame(4)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.08: pass
@@ -2599,13 +2599,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(1)
                         Ball_Speed = 0.074
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(120)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.074: pass
@@ -2616,13 +2616,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(2)
                         Ball_Speed = 0.068
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(130)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.068: pass
@@ -2633,13 +2633,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(3)
                         Ball_Speed = 0.062
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(140)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.062: pass
@@ -2650,13 +2650,13 @@ Group UI:
                         Sprite(36).SetAnimFrame(4)
                         Ball_Speed = 0.056
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
                         Text(40).SetText(150)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Ball_Speed == 0.056: pass
@@ -2667,14 +2667,14 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Ball_Speed = 0.05
                         Rex_Hash(67).SetValueByKeyString(BALLSPEED_KEY, Ball_Speed)
-                        Sprite(6).Spawn(@12, "UI", 0)
+                        Sprite(6).Spawn(Particles(12), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         Text(40).Destroy
                         Sprite(38).SetAnimFrame(1)
                         Sprite(39).Destroy
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
     Group PET_AND_POWER:
@@ -2689,20 +2689,20 @@ Group UI:
             Sprite(36).Destroy
             system_object.SetLayerVisible("Pet_Power", 1)
             Sprite(32).SetAnimFrame(1)
-            system_object.CreateObject(@35, "Pet_Power", 199.795, 901.926)
-            system_object.CreateObject(@38, "Pet_Power", 239.035, 934.241)
-            system_object.CreateObject(@36, "Pet_Power", 66.26, 877.408)
-            system_object.CreateObject(@62, "Pet_Power", 66.26, 877.408)
-            system_object.CreateObject(@39, "Pet_Power", 280.144, 935.632)
+            system_object.CreateObject(Sprite(35), "Pet_Power", 199.795, 901.926)
+            system_object.CreateObject(Sprite(38), "Pet_Power", 239.035, 934.241)
+            system_object.CreateObject(Sprite(36), "Pet_Power", 66.26, 877.408)
+            system_object.CreateObject(Sprite(62), "Pet_Power", 66.26, 877.408)
+            system_object.CreateObject(Sprite(39), "Pet_Power", 280.144, 935.632)
             Sprite(39).iVar0 = 0
-            system_object.CreateObject(@40, "Pet_Power", 317.111, 936.243)
-            system_object.CreateObject(@45, "Pet_Power", 239, 876.248)
-            Pin(36).Pin(@35, 0)
-            Pin(62).Pin(@35, 0)
-            Pin(38).Pin(@35, 0)
-            Pin(39).Pin(@35, 0)
-            Pin(40).Pin(@35, 0)
-            Pin(45).Pin(@35, 0)
+            system_object.CreateObject(Text(40), "Pet_Power", 317.111, 936.243)
+            system_object.CreateObject(Sprite(45), "Pet_Power", 239, 876.248)
+            Pin(36).Pin(Sprite(35), 0)
+            Pin(62).Pin(Sprite(35), 0)
+            Pin(38).Pin(Sprite(35), 0)
+            Pin(39).Pin(Sprite(35), 0)
+            Pin(40).Pin(Sprite(35), 0)
+            Pin(45).Pin(Sprite(35), 0)
             lunarray_LiteTween(35).Start(0, 0)
             system_object.SetLayerVisible("Gun", 0)
             system_object.SetLayerVisible("Pet", 0)
@@ -2776,11 +2776,11 @@ Group UI:
                 Text(40).Destroy
                 Sprite(38).SetAnimFrame(1)
                 Sprite(39).Destroy
-        if Touch(16).OnTapGestureObject(@32) and system_object.LayerVisible("Pet_Power"):
+        if Touch(16).OnTapGestureObject(Sprite(32)) and system_object.LayerVisible("Pet_Power"):
             Audio(52).Play(button, 0, 0, "")
             Function(18).CallFunction("Pet_Power", 13)
         if system_object.LayerVisible("Pet_Power"): pass
-            if Touch(16).OnTapGestureObject(@38):
+            if Touch(16).OnTapGestureObject(Sprite(38)):
                 Audio(52).Play(button, 0, 0, "")
                 if Pet_Ball_Speed == 0.2: pass
                     if Coins >= 20:
@@ -2791,20 +2791,20 @@ Group UI:
                         Text(40).SetText(30)
                         Pet_Ball_Speed = 0.19
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         Pet = 1
                         Rex_Hash(67).SetValueByKeyString(PET_KEY, Pet)
                         Unlock_Pet_1 = 1
                         Rex_Hash(67).SetValueByKeyString(UNLOCK_PET_1_KEY, Unlock_Pet_1)
                         Audio(52).Play(pet_select, 0, 0, "")
-                        Sprite(6).Spawn(@22, "Gameplay_UI", 4)
-                        Pin(22).Pin(@6, 3)
+                        Sprite(6).Spawn(Sprite(22), "Gameplay_UI", 4)
+                        Pin(22).Pin(Sprite(6), 3)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.19: pass
@@ -2816,13 +2816,13 @@ Group UI:
                         Text(40).SetText(40)
                         Pet_Ball_Speed = 0.18
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.18: pass
@@ -2834,13 +2834,13 @@ Group UI:
                         Text(40).SetText(50)
                         Pet_Ball_Speed = 0.17
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.17: pass
@@ -2852,13 +2852,13 @@ Group UI:
                         Text(40).SetText(100)
                         Pet_Ball_Speed = 0.16
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.16: pass
@@ -2869,12 +2869,12 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Pet_Ball_Speed = 0.15
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(110)
                         Sprite(62).SetAnimFrame(1)
@@ -2889,12 +2889,12 @@ Group UI:
                         Sprite(25).Destroy
                         Sprite(22).Destroy
                         Sprite(23).Destroy
-                        Sprite(6).Spawn(@24, "Gameplay_UI", 4)
+                        Sprite(6).Spawn(Sprite(24), "Gameplay_UI", 4)
                         Sprite(24).SetAngle(270)
-                        Pin(24).Pin(@6, 3)
+                        Pin(24).Pin(Sprite(6), 3)
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.15: pass
@@ -2906,13 +2906,13 @@ Group UI:
                         Text(40).SetText(120)
                         Pet_Ball_Speed = 0.14
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.14: pass
@@ -2924,13 +2924,13 @@ Group UI:
                         Text(40).SetText(130)
                         Pet_Ball_Speed = 0.13
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.13: pass
@@ -2942,13 +2942,13 @@ Group UI:
                         Text(40).SetText(140)
                         Pet_Ball_Speed = 0.12
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.12: pass
@@ -2960,13 +2960,13 @@ Group UI:
                         Text(40).SetText(200)
                         Pet_Ball_Speed = 0.11
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.11: pass
@@ -2977,12 +2977,12 @@ Group UI:
                         Sprite(36).SetAnimFrame(5)
                         Pet_Ball_Speed = 0.1
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                         system_object.Wait(0.5)
-                        Sprite(36).Spawn(@12, "Power", 0)
+                        Sprite(36).Spawn(Particles(12), "Power", 0)
                         Sprite(36).SetAnimFrame(0)
                         Text(40).SetText(210)
                         Sprite(62).SetAnimFrame(2)
@@ -2996,12 +2996,12 @@ Group UI:
                         Sprite(25).Destroy
                         Sprite(22).Destroy
                         Sprite(23).Destroy
-                        Sprite(6).Spawn(@26, "Gameplay_UI", 4)
-                        Pin(26).Pin(@6, 3)
+                        Sprite(6).Spawn(Sprite(26), "Gameplay_UI", 4)
+                        Pin(26).Pin(Sprite(6), 3)
                         Audio(52).Play(pet_select, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.1: pass
@@ -3013,13 +3013,13 @@ Group UI:
                         Text(40).SetText(220)
                         Pet_Ball_Speed = 0.09
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.09: pass
@@ -3031,13 +3031,13 @@ Group UI:
                         Text(40).SetText(230)
                         Pet_Ball_Speed = 0.08
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.08: pass
@@ -3049,13 +3049,13 @@ Group UI:
                         Text(40).SetText(240)
                         Pet_Ball_Speed = 0.07
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.07: pass
@@ -3067,13 +3067,13 @@ Group UI:
                         Text(40).SetText(250)
                         Pet_Ball_Speed = 0.06
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
                 if Pet_Ball_Speed == 0.06: pass
@@ -3087,13 +3087,13 @@ Group UI:
                         Sprite(38).SetAnimFrame(1)
                         Pet_Ball_Speed = 0.05
                         Rex_Hash(67).SetValueByKeyString(PET_BALLSPEED_KEY, Pet_Ball_Speed)
-                        Sprite(26).Spawn(@15, "UI", 0)
-                        Sprite(24).Spawn(@14, "UI", 0)
-                        Sprite(22).Spawn(@13, "UI", 0)
+                        Sprite(26).Spawn(Particles(15), "UI", 0)
+                        Sprite(24).Spawn(Particles(14), "UI", 0)
+                        Sprite(22).Spawn(Particles(13), "UI", 0)
                         Audio(52).Play(upgrade, 0, 0, "")
                     else:
                         Sprite(56).Destroy
-                        system_object.CreateObject(@56, "UI", 202.801, 353.591)
+                        system_object.CreateObject(Sprite(56), "UI", 202.801, 353.591)
                         Sprite(56).SetAnimFrame(4)
                         Flash(56).Flash(0.1, 0.1, 1.3)
 Group Difficulty:
@@ -3104,67 +3104,67 @@ Group Difficulty:
                 if system_object.TriggerOnce:
                     Sprite(6).SetAnimFrame(0)
                 if system_object.Every(Ball_Speed):
-                    Sprite(6).Spawn(@7, "Layer 1", 1)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                     Sprite(7).SetAngle(270)
                     Audio(52).Play(shoot_3, 0, -5, "")
             if Guns == 2: pass
                 if system_object.TriggerOnce:
                     Sprite(6).SetAnimFrame(1)
                 if system_object.Every(Ball_Speed):
-                    Sprite(6).Spawn(@7, "Layer 1", 1)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 2)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                     Sprite(7).SetAngle(270)
                     Audio(52).Play(shoot_3, 0, -5, "")
             if Guns == 3: pass
                 if system_object.TriggerOnce:
                     Sprite(6).SetAnimFrame(2)
                 if system_object.Every(Ball_Speed):
-                    Sprite(6).Spawn(@7, "Layer 1", 1)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 2)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 3)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                     Sprite(7).SetAngle(270)
                     Audio(52).Play(shoot_3, 0, -5, "")
             if Guns == 4: pass
                 if system_object.TriggerOnce:
                     Sprite(6).SetAnimFrame(3)
                 if system_object.Every(Ball_Speed):
-                    Sprite(6).Spawn(@7, "Layer 1", 1)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 2)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 3)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 5)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 5)
                     Sprite(7).SetAngle(270)
                     Audio(52).Play(shoot_3, 0, -5, "")
             if Guns == 5: pass
                 if system_object.TriggerOnce:
                     Sprite(6).SetAnimFrame(4)
                 if system_object.Every(Ball_Speed):
-                    Sprite(6).Spawn(@7, "Layer 1", 1)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 2)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 3)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 5)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 5)
                     Sprite(7).SetAngle(270)
-                    Sprite(6).Spawn(@7, "Layer 1", 6)
+                    Sprite(6).Spawn(Sprite(7), "Layer 1", 6)
                     Sprite(7).SetAngle(270)
                     Audio(52).Play(shoot_3, 0, -5, "")
             if system_object.Every(Pet_Ball_Speed):
-                Sprite(24).Spawn(@25, "Layer 1", 1)
+                Sprite(24).Spawn(Sprite(25), "Layer 1", 1)
                 Sprite(25).SetAngle(Sprite.Angle)
             if system_object.Every(Pet_Ball_Speed):
-                Sprite(22).Spawn(@23, "Layer 1", 0)
+                Sprite(22).Spawn(Sprite(23), "Layer 1", 0)
                 Sprite(23).SetAngle(270)
             if system_object.Every(Pet_Ball_Speed):
-                Sprite(26).Spawn(@27, "Layer 1", 1)
+                Sprite(26).Spawn(Sprite(27), "Layer 1", 1)
                 Sprite(27).SetAngle(270)
-                Sprite(26).Spawn(@27, "Layer 1", 2)
+                Sprite(26).Spawn(Sprite(27), "Layer 1", 2)
                 Sprite(27).SetAngle(270)
     if system_object.LayerVisible("UI"):
         Sin(29).SetActive(1)
@@ -3172,72 +3172,72 @@ Group Difficulty:
             if system_object.TriggerOnce:
                 Sprite(6).SetAnimFrame(0)
             if system_object.Every(Ball_Speed):
-                Sprite(6).Spawn(@7, "Layer 1", 1)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                 Sprite(7).SetAngle(270)
         if Guns == 2: pass
             if system_object.TriggerOnce:
                 Sprite(6).SetAnimFrame(1)
             if system_object.Every(Ball_Speed):
-                Sprite(6).Spawn(@7, "Layer 1", 1)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 2)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                 Sprite(7).SetAngle(270)
         if Guns == 3: pass
             if system_object.TriggerOnce:
                 Sprite(6).SetAnimFrame(2)
             if system_object.Every(Ball_Speed):
-                Sprite(6).Spawn(@7, "Layer 1", 1)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 2)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 3)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                 Sprite(7).SetAngle(270)
         if Guns == 4: pass
             if system_object.TriggerOnce:
                 Sprite(6).SetAnimFrame(3)
             if system_object.Every(Ball_Speed):
-                Sprite(6).Spawn(@7, "Layer 1", 1)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 2)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 3)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 5)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 5)
                 Sprite(7).SetAngle(270)
         if Guns == 5: pass
             if system_object.TriggerOnce:
                 Sprite(6).SetAnimFrame(4)
             if system_object.Every(Ball_Speed):
-                Sprite(6).Spawn(@7, "Layer 1", 1)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 1)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 2)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 2)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 3)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 3)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 5)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 5)
                 Sprite(7).SetAngle(270)
-                Sprite(6).Spawn(@7, "Layer 1", 6)
+                Sprite(6).Spawn(Sprite(7), "Layer 1", 6)
                 Sprite(7).SetAngle(270)
         if system_object.Every(Pet_Ball_Speed):
-            Sprite(24).Spawn(@25, "Layer 1", 1)
+            Sprite(24).Spawn(Sprite(25), "Layer 1", 1)
             Sprite(25).SetAngle(Sprite.Angle)
         if system_object.Every(Pet_Ball_Speed):
-            Sprite(22).Spawn(@23, "Layer 1", 0)
+            Sprite(22).Spawn(Sprite(23), "Layer 1", 0)
             Sprite(23).SetAngle(270)
         if system_object.Every(Pet_Ball_Speed):
-            Sprite(26).Spawn(@27, "Layer 1", 1)
+            Sprite(26).Spawn(Sprite(27), "Layer 1", 1)
             Sprite(27).SetAngle(270)
-            Sprite(26).Spawn(@27, "Layer 1", 2)
+            Sprite(26).Spawn(Sprite(27), "Layer 1", 2)
             Sprite(27).SetAngle(270)
     Group Spawn_Balls:
         if Function(18).OnFunction("Call_Ball_1"):
-            Sprite(5).Spawn(@1, "Layer 1", 0)
-            Sprite(1).Spawn(@19, "Layer 1", 0)
-            Pin(19).Pin(@1, 1)
+            Sprite(5).Spawn(Sprite(1), "Layer 1", 0)
+            Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+            Pin(19).Pin(Sprite(1), 1)
             Sprite(19).SetAnim("Ball_1", 1)
             Sprite(1).SetAnimFrame(0)
-            Sprite(19).Spawn(@4, "Layer 1", 0)
-            Pin(4).Pin(@1, 1)
+            Sprite(19).Spawn(Text(4), "Layer 1", 0)
+            Pin(4).Pin(Sprite(1), 1)
             Sprite(1).iVar0 = Number
             Text(4).iVar0 = Number
             Sprite(19).iVar0 = Number
@@ -3453,13 +3453,13 @@ Group Difficulty:
                                                         Text(4).iVar3 = " M"
                                                         Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
         if Function(18).OnFunction("Call_Ball_2"):
-            Sprite(5).Spawn(@1, "Layer 1", 0)
-            Sprite(1).Spawn(@19, "Layer 1", 0)
-            Pin(19).Pin(@1, 1)
+            Sprite(5).Spawn(Sprite(1), "Layer 1", 0)
+            Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+            Pin(19).Pin(Sprite(1), 1)
             Sprite(19).SetAnim("Ball_2", 1)
             Sprite(1).SetAnimFrame(1)
-            Sprite(19).Spawn(@4, "Layer 1", 0)
-            Pin(4).Pin(@1, 1)
+            Sprite(19).Spawn(Text(4), "Layer 1", 0)
+            Pin(4).Pin(Sprite(1), 1)
             Sprite(1).iVar0 = Number
             Text(4).iVar0 = Number
             Sprite(19).iVar0 = Number
@@ -3676,13 +3676,13 @@ Group Difficulty:
                                                         Text(4).iVar3 = " M"
                                                         Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
         if Function(18).OnFunction("Call_Ball_3"):
-            Sprite(5).Spawn(@1, "Layer 1", 0)
-            Sprite(1).Spawn(@19, "Layer 1", 0)
-            Pin(19).Pin(@1, 1)
+            Sprite(5).Spawn(Sprite(1), "Layer 1", 0)
+            Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+            Pin(19).Pin(Sprite(1), 1)
             Sprite(19).SetAnim("Ball_3", 1)
             Sprite(1).SetAnimFrame(2)
-            Sprite(19).Spawn(@4, "Layer 1", 0)
-            Pin(4).Pin(@1, 1)
+            Sprite(19).Spawn(Text(4), "Layer 1", 0)
+            Pin(4).Pin(Sprite(1), 1)
             Sprite(1).iVar0 = Number
             Text(4).iVar0 = Number
             Sprite(19).iVar0 = Number
@@ -3899,13 +3899,13 @@ Group Difficulty:
                                                         Text(4).iVar3 = " M"
                                                         Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
         if Function(18).OnFunction("Call_Ball_4"):
-            Sprite(5).Spawn(@1, "Layer 1", 0)
-            Sprite(1).Spawn(@19, "Layer 1", 0)
-            Pin(19).Pin(@1, 1)
+            Sprite(5).Spawn(Sprite(1), "Layer 1", 0)
+            Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+            Pin(19).Pin(Sprite(1), 1)
             Sprite(19).SetAnim("Ball_4", 1)
             Sprite(1).SetAnimFrame(3)
-            Sprite(19).Spawn(@4, "Layer 1", 0)
-            Pin(4).Pin(@1, 1)
+            Sprite(19).Spawn(Text(4), "Layer 1", 0)
+            Pin(4).Pin(Sprite(1), 1)
             Sprite(1).iVar0 = Number
             Text(4).iVar0 = Number
             Sprite(19).iVar0 = Number
@@ -4123,13 +4123,13 @@ Group Difficulty:
                                                         Text(4).SetText(((system_object.round((1000 * (Rotate / (10 ^ system_object.floor(system_object.floor(system_object.log10(Rotate))))))) / 100) & Rotate))
         if Function(18).OnFunction("Boss"):
             Boss_is_on_screen = 2
-            Sprite(5).Spawn(@1, "Layer 1", 0)
-            Sprite(1).Spawn(@19, "Layer 1", 0)
-            Pin(19).Pin(@1, 1)
+            Sprite(5).Spawn(Sprite(1), "Layer 1", 0)
+            Sprite(1).Spawn(Sprite(19), "Layer 1", 0)
+            Pin(19).Pin(Sprite(1), 1)
             Sprite(19).SetAnim("Boss", 1)
             Sprite(1).SetAnimFrame(4)
-            Sprite(19).Spawn(@4, "Layer 1", 0)
-            Pin(4).Pin(@1, 1)
+            Sprite(19).Spawn(Text(4), "Layer 1", 0)
+            Pin(4).Pin(Sprite(1), 1)
             Sprite(1).iVar0 = Number
             Text(4).iVar0 = Number
             Sprite(19).iVar0 = Number
@@ -4482,8 +4482,8 @@ Group Boss:
         if Sprite(1).IsOnScreen and Sprite(1).CompareFrame(==, 4) and Boss_is_on_screen == 2: pass
             if system_object.Every(3): pass
                 if Sprite(19).IsAnimPlaying("Boss"):
-                    Sprite(19).Spawn(@14, "Layer 1", 0)
-                    Sprite(19).Spawn(@9, "Layer 1", 0)
+                    Sprite(19).Spawn(Particles(14), "Layer 1", 0)
+                    Sprite(19).Spawn(Sprite(9), "Layer 1", 0)
 Show_Video = 0
 Video_Watched = 0
 Lost = 0
@@ -4492,10 +4492,10 @@ Free_Coins_add = 0
 Call_Video = 0
 Group Video:
     if gamee_c2(66).gameeEventLoadedRewardedVideo and Call_Video == 1:
-        system_object.CreateObject(@73, "Video", 200, 385)
-        system_object.CreateObject(@72, "Video", 200, 397)
-        system_object.CreateObject(@71, "Video", 200, 433)
-        system_object.CreateObject(@70, "Video", 200, 523)
+        system_object.CreateObject(Sprite(73), "Video", 200, 385)
+        system_object.CreateObject(Sprite(72), "Video", 200, 397)
+        system_object.CreateObject(Sprite(71), "Video", 200, 433)
+        system_object.CreateObject(Sprite(70), "Video", 200, 523)
         Audio(52).Stop("bg")
         system_object.SetTimescale(0)
         Game_Over_Time = 0
@@ -4507,11 +4507,11 @@ Group Video:
         Sprite(73).Destroy
         Game_Over_Time = 0
         Function(18).CallFunction("GameOver", 13)
-    if Touch(16).OnTapGestureObject(@71):
+    if Touch(16).OnTapGestureObject(Sprite(71)):
         gamee_c2(66).gameeActionShowRewardedVideo
     if gamee_c2(66).gameeEventRewardedVideoWatched and Call_Video == 1:
         Sprite(72).Destroy
-        Sprite(71).Spawn(@74, "Video", 0)
+        Sprite(71).Spawn(Sprite(74), "Video", 0)
         Video_Watched = 1
         Sprite(71).Destroy
         Sprite(70).Destroy
@@ -4519,7 +4519,7 @@ Group Video:
         system_object.SetTimescale(0)
         Audio(52).Stop("bg")
         Audio(52).Stop("boss")
-    if Touch(16).OnTapGestureObject(@73) and Video_Watched == 1:
+    if Touch(16).OnTapGestureObject(Sprite(73)) and Video_Watched == 1:
         system_object.SetTimescale(1)
         Show_Video = 1
         Sprite(72).Destroy
@@ -4530,7 +4530,7 @@ Group Video:
         Call_Video = 0
         if Audio(52).IsTagPlaying("bg"):
             Audio(52).Play(music_bg_4, 1, 0, "bg")
-    if Touch(16).OnTapGestureObject(@70):
+    if Touch(16).OnTapGestureObject(Sprite(70)):
         system_object.SetTimescale(1)
         Sprite(72).Destroy
         Sprite(71).Destroy
@@ -4552,7 +4552,7 @@ Group Video:
         Audio(52).Stop("bg")
         Audio(52).Play(start, 0, 10, "")
         Audio(52).Play(explode, 0, 10, "")
-        Sprite(6).Spawn(@15, "PLayer", 0)
+        Sprite(6).Spawn(Particles(15), "PLayer", 0)
         system_object.SetTimescale(0.3)
         Sprite(6).Destroy
         Sprite(29).Destroy
@@ -4573,7 +4573,7 @@ Group Video:
         Audio(52).Stop("bg")
         Audio(52).Play(start, 0, 10, "")
         Audio(52).Play(explode, 0, 10, "")
-        Sprite(6).Spawn(@15, "PLayer", 0)
+        Sprite(6).Spawn(Particles(15), "PLayer", 0)
         system_object.SetTimescale(0.3)
         Sprite(6).SetVisible(0)
         Sprite(29).SetVisible(0)
@@ -4616,12 +4616,12 @@ Group Video:
 Group Free_Coins_Add:
     if Function(18).OnFunction("Free_Coins"):
         Free_Coins_add = 2
-        Sprite(69).Spawn(@75, "Video", 0)
+        Sprite(69).Spawn(Particles(75), "Video", 0)
         system_object.Wait(0.2)
         Sprite(69).SetEffectParam("AdjustHSL", 1, 50)
         Sprite(69).SetEffectParam("AdjustHSL", 2, 75)
         system_object.Wait(0.3)
-        Sprite(47).Spawn(@75, "Video", 0)
+        Sprite(47).Spawn(Particles(75), "Video", 0)
         system_object.Wait(0.2)
         system_object.AddVar(Coins, 50)
         Rex_Hash(67).SetValueByKeyString(COINS_KEY, Coins)
@@ -4629,7 +4629,7 @@ Group Free_Coins_Add:
     if system_object.OnLayoutStart and Free_Coins_add == 2:
         Sprite(69).SetEffectParam("AdjustHSL", 1, 50)
         Sprite(69).SetEffectParam("AdjustHSL", 2, 75)
-    if Touch(16).OnTapGestureObject(@69) and Free_Coins_add == 0:
+    if Touch(16).OnTapGestureObject(Sprite(69)) and Free_Coins_add == 0:
         Free_Coins_add = 1
         Sprite(48).SetCollisions(0)
     if Free_Coins_add == 1 and system_object.TriggerOnce:

@@ -58,6 +58,7 @@ def extract_instances_data(data_path: str) -> tuple[str, ...]:
     instance_to_obj_list = []
     for instance in data:
         instance_to_obj_list.append(instance[1])
+    return instance_to_obj_list
 
 
 def extract_transistor_name(line: str) -> str:
