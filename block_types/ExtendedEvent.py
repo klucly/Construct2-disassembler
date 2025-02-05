@@ -39,24 +39,7 @@ class ExtendedEvent(Event):
         return self.collapse()
 
     def collapse(self, depth=0) -> str:
-        output_start = "    "*depth
-
-        str_conditions = [str(i) for i in self.conditions]
-        str_actions = [str(i) for i in self.actions]
-
-        if not str_conditions and not str_actions:
-            return ""
-
-        if str_conditions:
-            output_with_condititons = output_start + "if " + " and ".join(str_conditions) + ":"
-        else:
-            output_with_condititons = output_start + "run:"
-
-        if str_actions:
-            output = output_with_condititons + "\n" + "    "*(depth+1) + ("\n"+"    "*(depth+1)).join(str_actions) + "\n"
-        else:
-            output = output_with_condititons + "\n"
-
+        output = super().collapse(depth)
         str_code = [i.collapse(depth + 1) for i in self.code]
 
         if str_code:

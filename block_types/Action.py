@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from block_types.Value import Value
+from block_types.Value import Value, get_str_repr_of_builtin
 from util import META, RAW, CheckStatus
 from block_types.Block import Block
 
@@ -36,13 +36,15 @@ class Action(Block):
         return CheckStatus.Ok
     
     def __str__(self):
-        name_split = self.meta[self.type_].split(".")
-        if self.index_ != -1:
-            name_split.insert(1, str(self.index_))
-        name = ".".join(name_split)
+        return get_str_repr_of_builtin(self.type_, self.index_, self.args, self.meta)
 
-        if self.args == []:
-            return name
-        str_args = [str(arg) for arg in self.args]
+        # name_split = self.meta[self.type_].split(".")
+        # if self.index_ != -1:
+        #     name_split.insert(1, str(self.index_))
+        # name = ".".join(name_split)
 
-        return f"{name}({', '.join(str_args)})"
+        # if self.args == []:
+        #     return name
+        # str_args = [str(arg) for arg in self.args]
+
+        # return f"{name}({', '.join(str_args)})"

@@ -106,14 +106,14 @@ class SimpleValue(Value):
                 return value
             # choice
             case 3:
-                return f"#{value}"
+                return f"{value}"
             # object
             case 4:
                 return f"@{value}"
             # cmp sign
             case 8:
                 return [
-                    "=",
+                    "==",
                     "!=",
                     "<",
                     "<=",
@@ -132,19 +132,8 @@ class SimpleValue(Value):
             # variable
             case 23:
                 return value
-            case a:
-                return f"!ERROR-{a}!"
-            
-        # return {
-        #     0: "int",
-        #     1: "float",
-        #     2: "string",
-        #     3: "type|platform",
-        #     5: "layer",
-        #     7: "any",
-        #     8: "cmp",
-        #     11: "var"
-        # }[i]
+            case other:
+                return f"!ERROR-{other}!"
 
     @staticmethod
     def check(raw: RAW, meta: META) -> CheckStatus:
@@ -191,7 +180,9 @@ class CallValue(Value):
         return CheckStatus.Ok
 
     def __str__(self):
-        output = self.meta[self.callee_index]
+        name = get_str_repr_of_builtin(self.callee_index, -1, self.callee_args, self.meta)
+        
+        output = name
         if self.callee_args:
             str_args = [str(i) for i in self.callee_args]
             output += f"({', '.join(str_args)})"
@@ -252,3 +243,59 @@ class OperatorValue(Value):
         }
 
         return "(" + f" {signs[self.type_]} ".join(str_args) + ")"
+
+
+def get_str_repr_of_builtin(builtin: int, index_: int, args: list[Value], meta: META) -> str:
+    # Override things like `system_object.SetVar(Show_Video, 0)` to `Show_Video = 0`
+    raw_name = meta[builtin]
+    name_split = raw_name.split(".")
+    if index_ != -1:
+        name_split[0] += f"({index_})"
+    name = ".".join(name_split)
+
+    output = override_builtin_str(raw_name, index_, args)
+    if output:
+        return output
+    
+    if args == []:
+        return name
+    str_args = [str(arg) for arg in args]
+
+    return f"{name}({', '.join(str_args)})"
+
+
+def override_builtin_str(name: str, index_: int, args: list[Value]) -> str | None:
+    match name:
+        case "system_object.SetVar":
+            variable = args[0]
+            value = args[1]
+            return f"{variable} = {value}"
+        
+        case "system_object.CompareVar" | "system_object.Compare":
+            variable = args[0]
+            cmp_operation = args[1]
+            value = args[2]
+            return f"{variable} {cmp_operation} {value}"
+        
+        case str() as s if s.endswith(".CompareInstanceVar"):
+            variable = args[0]
+            cmp_operation = args[1]
+            value = args[2]
+            variable_str = str(variable)[1:]
+            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
+            return f"{full_name} {cmp_operation} {value}"
+        
+        case str() as s if s.endswith(".SetInstanceVar"):
+            variable = args[0]
+            value = args[1]
+            variable_str = str(variable)[1:]
+            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
+            return f"{full_name} = {value}"
+        
+        case str() as s if s.endswith(".SubInstanceVar"):
+            variable = args[0]
+            value = args[1]
+            variable_str = str(variable)[1:]
+            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
+            return f"{full_name} -= {value}"
+
