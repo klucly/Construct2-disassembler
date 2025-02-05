@@ -9,7 +9,7 @@ data_path = project_path + "/data.js"
 c2runtime_path = project_path + "/c2runtime.js"
 
 
-p = Parser(extract_meta(c2runtime_path))
+p = Parser(extract_meta(data_path, c2runtime_path))
 a = p.parse(get_data(data_path))
 
 output = "".join([str(i) for i in a])

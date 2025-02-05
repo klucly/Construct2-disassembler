@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from util import META, RAW, CheckStatus
+from util import Meta, RAW, CheckStatus
 from block_types.Block import Block
 from block_types.Code import Code
 
@@ -13,10 +13,10 @@ class Group(Block):
     name: str
     code: list[Code]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         name = raw[1][1]
         raw_code = raw[7]
 
@@ -25,7 +25,7 @@ class Group(Block):
         return cls(name, code, raw, meta)
     
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (len(raw) != 8 or
             type(raw[1]) is not list or
             len(raw[1]) != 2 or

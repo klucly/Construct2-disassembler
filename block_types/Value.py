@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Self
 
-from util import RAW, RAW_VALUE, META, CheckStatus, ParseError
+from util import RAW, RAW_VALUE, Meta, CheckStatus, ParseError
 from block_types.Block import Block
 
 
@@ -17,7 +17,7 @@ class Value(Block):
     #| type, int, callee, bool, None, [Value]
     
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         if ContainerValue.check(raw, meta) == CheckStatus.Ok:
             return ContainerValue.parse(raw, meta)
         if SimpleValue.check(raw, meta) == CheckStatus.Ok:
@@ -30,7 +30,7 @@ class Value(Block):
         raise ParseError(raw)
         
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (SimpleValue.check(raw, meta) == CheckStatus.Error and
             CallValue.check(raw, meta) == CheckStatus.Error and
             OperatorValue.check(raw, meta) == CheckStatus.Error and
@@ -44,15 +44,15 @@ class Value(Block):
 class ContainerValue(Value):
     values: list[Value]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         values = [Value.parse(i, meta) for i in raw]
         return cls(values, raw, meta)
         
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if type(raw) is list and min([type(i) is list for i in raw]) == 1:
             return CheckStatus.Ok
         return CheckStatus.Error
@@ -71,10 +71,10 @@ class SimpleValue(Value):
     type_: int
     value: RAW_VALUE
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         if type(raw) is not list:
             return cls([int, float, str].index(type(raw)), raw, raw, meta)
         
@@ -136,7 +136,7 @@ class SimpleValue(Value):
                 return f"!ERROR-{other}!"
 
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if type(raw) is list and len(raw) not in {1, 2}:
 
             return CheckStatus.Error
@@ -157,10 +157,10 @@ class CallValue(Value):
     callee_index: int
     callee_args: list[Value]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self | list[Self]:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self | list[Self]:
         callee_index = raw[2] if type(raw[2]) is int else raw[0]
         callee_args = [
             Value.parse(raw_value, meta) for raw_value in raw[5]
@@ -169,7 +169,7 @@ class CallValue(Value):
         return cls(callee_index, callee_args, raw, meta)
 
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (type(raw) is not list or
             len(raw) not in {5, 6} or
             type(raw[0]) is not int or
@@ -196,10 +196,10 @@ class OperatorValue(Value):
     type_: int
     args: list[Value]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         arg2 = Value.parse(raw[2], meta)
         type_ = raw[1]
         args = [arg2]
@@ -213,7 +213,7 @@ class OperatorValue(Value):
 
 
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (type(raw) is not list or
             len(raw) != 3 or
             type(raw[2]) is not list or
@@ -226,7 +226,7 @@ class OperatorValue(Value):
     def __str__(self):
         str_args = [str(i) for i in self.args]
         if len(str_args) == 1:
-            return f"{self.meta[self.type_]}({str_args[0]})"
+            return f"{self.meta.get_name_by_id(self.type_)}({str_args[0]})"
         
         signs = {
             4: "+",
@@ -245,9 +245,9 @@ class OperatorValue(Value):
         return "(" + f" {signs[self.type_]} ".join(str_args) + ")"
 
 
-def get_str_repr_of_builtin(builtin: int, index_: int, args: list[Value], meta: META) -> str:
+def get_str_repr_of_builtin(builtin: int, index_: int, args: list[Value], meta: Meta) -> str:
     # Override things like `system_object.SetVar(Show_Video, 0)` to `Show_Video = 0`
-    raw_name = meta[builtin]
+    raw_name = meta.get_name_by_id(builtin)
     name_split = raw_name.split(".")
     if index_ != -1:
         name_split[0] += f"({index_})"

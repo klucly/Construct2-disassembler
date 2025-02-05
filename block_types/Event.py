@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from util import META, RAW, CheckStatus
+from util import Meta, RAW, CheckStatus
 from block_types.Block import Block
 from block_types.Condition import Condition
 from block_types.Action import Action
@@ -14,10 +14,10 @@ class Event(Block):
     conditions: list[Condition]
     actions: list[Action]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         raw_conditions = raw[5]
         raw_actions = raw[6]
 
@@ -27,7 +27,7 @@ class Event(Block):
         return cls(conditions, actions, raw, meta)
     
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (len(raw) != 7 or
             type(raw[5]) is not list or
             type(raw[6]) is not list):

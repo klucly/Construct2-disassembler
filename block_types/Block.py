@@ -2,12 +2,12 @@ from copy import copy
 from typing import Self
 from abc import ABC, abstractmethod
 
-from util import RAW, CheckStatus, ParseError, META
+from util import RAW, CheckStatus, ParseError, Meta
 
 
 class Block(ABC):
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @property
     def raw(self):
@@ -18,7 +18,7 @@ class Block(ABC):
         return self._meta
 
     @classmethod
-    def parse(cls, raw: RAW, meta: META) -> Self:
+    def parse(cls, raw: RAW, meta: Meta) -> Self:
         match cls.check(raw, meta):
             case CheckStatus.Ok:
                 return cls._parse(raw, meta)
@@ -27,10 +27,10 @@ class Block(ABC):
 
     @classmethod
     @abstractmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         ...
     
     @staticmethod
     @abstractmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         ...

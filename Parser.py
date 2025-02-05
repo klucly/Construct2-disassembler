@@ -1,9 +1,9 @@
-from util import RAW, META
+from util import RAW, Meta
 from block_types import Code
 
 
 class Parser:
-    def __init__(self, meta: META):
+    def __init__(self, meta: Meta):
         self.meta = meta
 
     def parse(self, raw: RAW) -> list[Code]:

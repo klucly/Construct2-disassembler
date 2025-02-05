@@ -9,12 +9,12 @@ from block_types.DefVariable import DefVariable
 from block_types.Group import Group
 from block_types.Code import Code
 from block_types.ExtendedEvent import ExtendedEvent
-from util import RAW, CheckStatus, META
+from util import RAW, CheckStatus, Meta
 
 
 class _Block:
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         if Value.check(raw, meta) == CheckStatus.Ok:
             return Value.parse(raw, meta)
         if Code.check(raw, meta) == CheckStatus.Ok:
@@ -25,7 +25,7 @@ class _Block:
             return Action.parse(raw, meta)
 
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (Value.check(raw, meta) == CheckStatus.Error and
             Code.check(raw, meta) == CheckStatus.Error and
             Condition.check(raw, meta) == CheckStatus.Error and
@@ -40,7 +40,7 @@ Block.check = _Block.check
 
 class _Code:
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         if DefVariable.check(raw, meta) == CheckStatus.Ok:
             return DefVariable.parse(raw, meta)
         if Event.check(raw, meta) == CheckStatus.Ok:
@@ -51,7 +51,7 @@ class _Code:
             return ExtendedEvent.parse(raw, meta)
     
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (DefVariable.check(raw, meta) == CheckStatus.Error and
             Event.check(raw, meta) == CheckStatus.Error and
             Group.check(raw, meta) == CheckStatus.Error and

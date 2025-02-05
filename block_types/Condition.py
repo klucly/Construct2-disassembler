@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from block_types.Value import Value, get_str_repr_of_builtin
-from util import META, RAW, CheckStatus
+from util import Meta, RAW, CheckStatus
 from block_types.Block import Block
 
 
@@ -14,10 +14,10 @@ class Condition(Block):
     index_: int
     args: list[Value]
     _raw: RAW
-    _meta: META
+    _meta: Meta
 
     @classmethod
-    def _parse(cls, raw: RAW, meta: META) -> Self:
+    def _parse(cls, raw: RAW, meta: Meta) -> Self:
         type_ = raw[1]
         index_ = raw[0]
         raw_args = raw[9] if len(raw) == 10 else []
@@ -26,7 +26,7 @@ class Condition(Block):
         return cls(type_, index_, args, raw, meta)
     
     @staticmethod
-    def check(raw: RAW, meta: META) -> CheckStatus:
+    def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (len(raw) not in {9, 10} or
             type(raw[0]) is not int or
             type(raw[1]) is not int or
