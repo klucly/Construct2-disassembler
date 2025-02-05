@@ -37,15 +37,8 @@ class Event(Block):
 
     def __str__(self):
         return self.collapse()
-    
-    def collapse(self, depth=0, more_code_expected: bool|None = None) -> str:
-        output = self.collapse1(depth, more_code_expected)
-        if "\n            \n" in output:
-            pass
-        return output
 
-
-    def collapse1(self, depth=0, more_code_expected_later: bool = False) -> str:
+    def collapse(self, depth=0, more_code_expected_later: bool = False) -> str:
         output_start = "    "*depth
 
         more_code_expected_here = len(self.actions) > 0
@@ -58,9 +51,9 @@ class Event(Block):
 
         if not str_conditions:
             output_with_conditions = output_start + "if True:"
-        elif len(str_conditions) == 1 and str_conditions[0] == "system_object.Else":
+        elif len(str_conditions) == 1 and str_conditions[0] == "system_object.Else()":
             output_with_conditions = output_start + "else:"
-        elif str_conditions[0] == "system_object.Else":
+        elif str_conditions[0] == "system_object.Else()":
             output_with_conditions = output_start + "elif " + " and ".join(str_conditions[1:]) + ":"
         else:
             output_with_conditions = output_start + "if " + " and ".join(str_conditions) + ":"

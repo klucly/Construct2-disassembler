@@ -40,9 +40,10 @@ class Group(Block):
         return self.collapse()
 
     def collapse(self, depth=0) -> str:
-        output_start = "    "*depth + f"Group {self.name}:\n"
+        output_start = "    "*depth + f"def {self.name}():\n"
 
         str_code = [i.collapse(depth + 1) for i in self.code]
+        str_code.append("    "*depth + self.name + "()\n")
 
         if str_code:
             return output_start + "".join(str_code)

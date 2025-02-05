@@ -132,7 +132,7 @@ class SimpleValue(Value):
                 return value
             # instance variable
             case 10:
-                return f"${value}"
+                return str(value)
             # variable
             case 11:
                 return value
@@ -189,13 +189,7 @@ class CallValue(Value):
         return CheckStatus.Ok
 
     def __str__(self):
-        name = get_str_repr_of_builtin(self.callee_index, -1, self.callee_args, self.meta)
-        
-        output = name
-        if self.callee_args:
-            str_args = [str(i) for i in self.callee_args]
-            output += f"({', '.join(str_args)})"
-        return output
+        return get_str_repr_of_builtin(self.callee_index, -1, self.callee_args, self.meta)
 
     def __repr__(self):
         return super().__repr__()
@@ -223,7 +217,6 @@ class OperatorValue(Value):
 
         return cls(type_, args, raw, meta)
 
-
     @staticmethod
     def check(raw: RAW, meta: Meta) -> CheckStatus:
         if (type(raw) is not list or
@@ -238,7 +231,7 @@ class OperatorValue(Value):
     def __str__(self):
         str_args = [str(i) for i in self.args]
         if len(str_args) == 1:
-            return f"{self.meta.get_name_by_id(self.type_)}({str_args[0]})"
+            return get_str_repr_of_builtin(self.type_, -1, self.args, self.meta)
         
         signs = {
             4: "+",
@@ -273,7 +266,7 @@ def get_str_repr_of_builtin(builtin: int, index_: int, args: list[Value], meta: 
         return output
     
     if args == []:
-        return name
+        return name + "()"
     str_args = [str(arg) for arg in args]
 
     return f"{name}({', '.join(str_args)})"
@@ -286,31 +279,42 @@ def override_builtin_str(name: str, index_: int, args: list[Value]) -> str | Non
             value = args[1]
             return f"{variable} = {value}"
         
-        case "system_object.CompareVar" | "system_object.Compare":
+        case "system_object.AddVar":
             variable = args[0]
-            cmp_operation = args[1]
-            value = args[2]
-            return f"{variable} {cmp_operation} {value}"
+            value = args[1]
+            return f"{variable} += {value}"
+        
+        case "system_object.SubVar":
+            variable = args[0]
+            value = args[1]
+            return f"{variable} -= {value}"
+        
+        case "system_object.CompareVar" | "system_object.Compare":
+            return f"{args[0]} {args[1]} {args[2]}"
+        
+        case "system_object.trim":
+            return f"{args[0]}.strip()"
         
         case str() as s if s.endswith(".CompareInstanceVar"):
-            variable = args[0]
-            cmp_operation = args[1]
-            value = args[2]
-            variable_str = str(variable)[1:]
-            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
-            return f"{full_name} {cmp_operation} {value}"
+            full_name = f"{s.split('.')[0]}({index_}).iVar{args[0]}"
+            return f"{full_name} {args[1]} {args[2]}"
         
         case str() as s if s.endswith(".SetInstanceVar"):
-            variable = args[0]
-            value = args[1]
-            variable_str = str(variable)[1:]
-            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
-            return f"{full_name} = {value}"
+            full_name = f"{s.split('.')[0]}({index_}).iVar{args[0]}"
+            return f"{full_name} = {args[1]}"
         
         case str() as s if s.endswith(".SubInstanceVar"):
-            variable = args[0]
-            value = args[1]
-            variable_str = str(variable)[1:]
-            full_name = f"{s.split('.')[0]}({index_}).iVar{variable_str}"
-            return f"{full_name} -= {value}"
+            full_name = f"{s.split('.')[0]}({index_}).iVar{args[0]}"
+            return f"{full_name} -= {args[1]}"
+        
+        case str() as s if s.endswith(".CompareX"):
+            full_name = f"{s.split('.')[0]}({index_})"
+            return f"{full_name}.X {args[0]} {args[1]}"
+        
+        case str() as s if s.endswith(".CompareBetween"):
+            return f"{args[1]} <= {args[0]} <= {args[2]}"
+        
+        case str() as s if s.endswith(".CompareFrame"):
+            full_name = f"{s.split('.')[0]}({index_})"
+            return f"{full_name}.Frame {args[0]} {args[1]}"
 
