@@ -48,3 +48,6 @@ class Group(Block):
             return output_start + "".join(str_code)
 
         return output_start + " pass\n"
+
+    def __repr__(self):
+        return super().__repr__()

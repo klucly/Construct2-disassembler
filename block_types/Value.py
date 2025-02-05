@@ -38,6 +38,9 @@ class Value(Block):
 
             return CheckStatus.Error
         return CheckStatus.Ok
+    
+    def __repr__(self):
+        return super().__repr__()
 
 
 @dataclass
@@ -60,6 +63,9 @@ class ContainerValue(Value):
     def __str__(self):
         str_values = [str(value) for value in self.values]
         return ", ".join(str_values)
+    
+    def __repr__(self):
+        return super().__repr__()
 
 @dataclass
 class SimpleValue(Value):
@@ -148,6 +154,8 @@ class SimpleValue(Value):
             return f'"{self.value}"'
         return str(self.decode_value_type(self.type_, self.value, self.meta))
 
+    def __repr__(self):
+        return super().__repr__()
 
 @dataclass
 class CallValue(Value):
@@ -188,6 +196,9 @@ class CallValue(Value):
             str_args = [str(i) for i in self.callee_args]
             output += f"({', '.join(str_args)})"
         return output
+
+    def __repr__(self):
+        return super().__repr__()
 
 @dataclass
 class OperatorValue(Value):
@@ -244,6 +255,9 @@ class OperatorValue(Value):
         }
 
         return "(" + f" {signs[self.type_]} ".join(str_args) + ")"
+
+    def __repr__(self):
+        return super().__repr__()
 
 
 def get_str_repr_of_builtin(builtin: int, index_: int, args: list[Value], meta: Meta) -> str:

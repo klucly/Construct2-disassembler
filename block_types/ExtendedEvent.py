@@ -39,10 +39,15 @@ class ExtendedEvent(Event):
         return self.collapse()
 
     def collapse(self, depth=0) -> str:
-        output = super().collapse(depth)
+        output = super().collapse(depth, len(self.code) > 0)
         str_code = [i.collapse(depth + 1) for i in self.code]
 
-        if str_code:
+        if str_code and output:
             return output + "".join(str_code)
 
+        if not output:
+            return ""
         return output
+
+    def __repr__(self):
+        return super().__repr__()

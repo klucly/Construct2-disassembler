@@ -33,3 +33,5 @@ class DefVariable(Code):
     def __str__(self):
         return f"{self.name} = {self.value}\n"
     
+    def __repr__(self):
+        return super().__repr__()

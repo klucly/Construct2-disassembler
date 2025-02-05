@@ -37,3 +37,6 @@ class Condition(Block):
 
     def __str__(self):
         return get_str_repr_of_builtin(self.type_, self.index_, self.args, self.meta)
+
+    def __repr__(self):
+        return super().__repr__()

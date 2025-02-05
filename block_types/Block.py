@@ -34,3 +34,9 @@ class Block(ABC):
     @abstractmethod
     def check(raw: RAW, meta: Meta) -> CheckStatus:
         ...
+
+    def __repr__(self):
+        out = "<" + self.__str__().replace("\n", "\\n") + ">"
+        while "  " in out:
+            out = out.replace("  ", " ")
+        return out

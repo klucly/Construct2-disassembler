@@ -38,13 +38,5 @@ class Action(Block):
     def __str__(self):
         return get_str_repr_of_builtin(self.type_, self.index_, self.args, self.meta)
 
-        # name_split = self.meta[self.type_].split(".")
-        # if self.index_ != -1:
-        #     name_split.insert(1, str(self.index_))
-        # name = ".".join(name_split)
-
-        # if self.args == []:
-        #     return name
-        # str_args = [str(arg) for arg in self.args]
-
-        # return f"{name}({', '.join(str_args)})"
+    def __repr__(self):
+        return super().__repr__()
